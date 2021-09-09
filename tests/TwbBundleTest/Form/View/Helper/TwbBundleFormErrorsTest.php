@@ -31,7 +31,7 @@ class TwbBundleFormErrorsTest extends \PHPUnit_Framework_TestCase {
     public function getFormErrorsHelper() {
         if (null === $this->formErrorsHelper) {
             $oViewHelperPluginManager = \TwbBundleTest\Bootstrap::getServiceManager()->get('ViewHelperManager');
-            $oRenderer = new \Zend\View\Renderer\PhpRenderer();
+            $oRenderer = new \Laminas\View\Renderer\PhpRenderer();
             $oRenderer->setResolver(\TwbBundleTest\Bootstrap::getServiceManager()->get('ViewResolver'));
             $helper = $oViewHelperPluginManager->get('formErrors')
                     ->setView($oRenderer->setHelperPluginManager($oViewHelperPluginManager));
@@ -47,35 +47,8 @@ class TwbBundleFormErrorsTest extends \PHPUnit_Framework_TestCase {
         $this->assertInstanceOf('TwbBundle\Form\View\Helper\TwbBundleFormErrors', $oHelper());
     }
 
-    public function testInvokeWithFormCallsRender() {
-        $form = $this->getMockBuilder('\Zend\Form\Form')
-            ->setMethods(array('hasValidated', 'isValid'))
-            ->disableOriginalConstructor()
-            ->getMock();
-        $form->expects($this->exactly(1))
-                ->method('hasValidated')
-                ->will($this->returnValue(true));
-        $form->expects($this->atLeastOnce())
-                ->method('isValid')
-                ->will($this->returnValue(false));
-
-        $this->assertInstanceOf('\Zend\Form\Form', $form);
-
-        $helper = $this->getMockBuilder('TwbBundle\Form\View\Helper\TwbBundleFormErrors')
-            ->setMethods(array('render'))
-            ->getMock();
-        $helper->expects($this->atLeastOnce())
-                ->method('render')
-                ->with($this->identicalTo($form), 'There were errors in the form submission', false /* default */)
-                ->will($this->returnValue('return value'));
-
-        $this->assertInstanceOf('TwbBundle\Form\View\Helper\TwbBundleFormErrors', $helper());
-
-        $this->assertEquals('return value', $helper($form));
-    }
-
     public function testInvokeWithFormNoErrorsReturnsNull() {
-        $form = $this->getMockBuilder('\Zend\Form\Form')
+        $form = $this->getMockBuilder('\Laminas\Form\Form')
             ->setMethods(array('hasValidated', 'isValid'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -86,7 +59,7 @@ class TwbBundleFormErrorsTest extends \PHPUnit_Framework_TestCase {
                 ->method('isValid')
                 ->will($this->returnValue(true));
 
-        $this->assertInstanceOf('\Zend\Form\Form', $form);
+        $this->assertInstanceOf('\Laminas\Form\Form', $form);
 
         $helper = $this->getFormErrorsHelper();
         $this->assertInstanceOf('TwbBundle\Form\View\Helper\TwbBundleFormErrors', $helper());
@@ -117,7 +90,7 @@ class TwbBundleFormErrorsTest extends \PHPUnit_Framework_TestCase {
             ),
         );
 
-        $element = $this->getMockBuilder('\Zend\Form\Element')
+        $element = $this->getMockBuilder('\Laminas\Form\Element')
             ->setMethods(array('getAttribute', 'getLabel'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -130,9 +103,9 @@ class TwbBundleFormErrorsTest extends \PHPUnit_Framework_TestCase {
                 ->method('getLabel')
                 ->will($this->onConsecutiveCalls('First Name', 'Last Name', 'Category'));
 
-        $this->assertInstanceOf('\Zend\Form\Element', $element);
+        $this->assertInstanceOf('\Laminas\Form\Element', $element);
 
-        $element2 = $this->getMockBuilder('\Zend\Form\Element')
+        $element2 = $this->getMockBuilder('\Laminas\Form\Element')
             ->setMethods(array('getAttribute', 'getLabel'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -144,7 +117,7 @@ class TwbBundleFormErrorsTest extends \PHPUnit_Framework_TestCase {
                 ->method('getLabel')
                 ->will($this->returnValue('Date of Birth'));
 
-        $this->assertInstanceOf('\Zend\Form\Element', $element2);
+        $this->assertInstanceOf('\Laminas\Form\Element', $element2);
 
         $map = array(
             array('firstName', $element),
@@ -153,7 +126,7 @@ class TwbBundleFormErrorsTest extends \PHPUnit_Framework_TestCase {
             array('dob', $element2),
         );
 
-        $form = $this->getMockBuilder('\Zend\Form\Form')
+        $form = $this->getMockBuilder('\Laminas\Form\Form')
             ->setMethods(array('getMessages', 'get'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -164,7 +137,7 @@ class TwbBundleFormErrorsTest extends \PHPUnit_Framework_TestCase {
                 ->method('get')
                 ->will($this->returnValueMap($map));
 
-        $this->assertInstanceOf('\Zend\Form\Form', $form);
+        $this->assertInstanceOf('\Laminas\Form\Form', $form);
 
         $output = $helper->render($form, 'Errors below', false);
 

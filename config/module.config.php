@@ -1,8 +1,8 @@
 <?php
 
 return array(
-    'twbbundle' => array (
-        'ignoredViewHelpers' => array (
+    'twbbundle' => array(
+        'ignoredViewHelpers' => array(
             'file',
             'checkbox',
             'radio',
@@ -10,18 +10,18 @@ return array(
             'multi_checkbox',
             'static',
             'button',
-            'reset'
+            'reset',
         ),
         'type_map' => array(),
         'class_map' => array(),
     ),
-    'service_manager' => array (
-        'factories' => array (
+    'service_manager' => array(
+        'factories' => array(
             'TwbBundle\Options\ModuleOptions' => 'TwbBundle\Options\Factory\ModuleOptionsFactory',
         ),
     ),
-    'view_helpers' => array (
-        'invokables' => array (
+    'view_helpers' => array(
+        'invokables' => array(
             //Alert
             'alert' => 'TwbBundle\View\Helper\TwbBundleAlert',
             //Badge
@@ -86,28 +86,28 @@ return array(
             'formfontAwesome' => 'TwbBundle\View\Helper\TwbBundleFontAwesome',
 
             // zend
-            'form_label' => 'Zend\Form\View\Helper\FormLabel',
-            'formlabel' => 'Zend\Form\View\Helper\FormLabel',
-            'formemail'    => 'Zend\Form\View\Helper\FormEmail',
-            'formpassword' => 'Zend\Form\View\Helper\FormPassword',
-            'formfile'     => 'Zend\Form\View\Helper\FormFile',
-            'formtext'     => 'Zend\Form\View\Helper\FormText',
-            'formtextarea' => 'Zend\Form\View\Helper\FormTextarea',
-            'formselect'   => 'Zend\Form\View\Helper\FormSelect',
-            'forminput'    => 'Zend\Form\View\Helper\FormInput',
-            'formhidden'   => 'Zend\Form\View\Helper\FormHidden',
+            'form_label' => 'Laminas\Form\View\Helper\FormLabel',
+            'formlabel' => 'Laminas\Form\View\Helper\FormLabel',
+            'formemail' => 'Laminas\Form\View\Helper\FormEmail',
+            'formpassword' => 'Laminas\Form\View\Helper\FormPassword',
+            'formfile' => 'Laminas\Form\View\Helper\FormFile',
+            'formtext' => 'Laminas\Form\View\Helper\FormText',
+            'formtextarea' => 'Laminas\Form\View\Helper\FormTextarea',
+            'formselect' => 'Laminas\Form\View\Helper\FormSelect',
+            'forminput' => 'Laminas\Form\View\Helper\FormInput',
+            'formhidden' => 'Laminas\Form\View\Helper\FormHidden',
         ),
-        'factories' => array (
+        'factories' => array(
             'formElement' => 'TwbBundle\Form\View\Helper\Factory\TwbBundleFormElementFactory',
             'form_element' => 'TwbBundle\Form\View\Helper\Factory\TwbBundleFormElementFactory',
             'formelement' => 'TwbBundle\Form\View\Helper\Factory\TwbBundleFormElementFactory',
             'TwbBundle\Form\View\Helper\TwbBundleFormElement' => 'TwbBundle\Form\View\Helper\Factory\TwbBundleFormElementFactory',
-            'zendviewhelpernavigation'  => 'TwbBundle\Navigation\View\NavigationHelperFactory',
+            'laminasviewhelpernavigation' => 'TwbBundle\Navigation\View\NavigationHelperFactory',
         ),
-        'aliases' => array (
+        'aliases' => array(
             'form_element' => 'TwbBundle\Form\View\Helper\TwbBundleFormElement',
-            'navigation' => 'zendviewhelpernavigation',
-            'Navigation' => 'zendviewhelpernavigation',
+            'navigation' => 'laminasviewhelpernavigation',
+            'Navigation' => 'laminasviewhelpernavigation',
         ),
     ),
 );

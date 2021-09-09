@@ -14,7 +14,7 @@ class TwbBundleFormElementTest extends \PHPUnit_Framework_TestCase {
      */
     public function setUp() {
         $oViewHelperPluginManager = \TwbBundleTest\Bootstrap::getServiceManager()->get('ViewHelperManager');
-        $oRenderer = new \Zend\View\Renderer\PhpRenderer();
+        $oRenderer = new \Laminas\View\Renderer\PhpRenderer();
         $this->formElementHelper = $oViewHelperPluginManager->get('formElement')->setView($oRenderer->setHelperPluginManager($oViewHelperPluginManager));
     }
 
@@ -36,26 +36,6 @@ class TwbBundleFormElementTest extends \PHPUnit_Framework_TestCase {
         $oReflectionMethod = $oReflectionClass->getMethod('renderAddOn');
         $oReflectionMethod->setAccessible(true);
         $oReflectionMethod->invoke($this->formElementHelper, new \stdClass());
-    }
-
-    public function testRenderAddOnWithoutTranslator() {
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-
-        $oReflectionClass = new \ReflectionClass('\TwbBundle\Form\View\Helper\TwbBundleFormElement');
-        $oReflectionMethod = $oReflectionClass->getMethod('renderAddOn');
-        $oReflectionMethod->setAccessible(true);
-
-        //Unset tranlator
-        $this->assertSame($this->formElementHelper, $this->formElementHelper->setTranslator(null));
-        $this->assertFalse($this->formElementHelper->hasTranslator());
-
-        $this->assertEquals('<span class="input-group-addon">test</span>', $oReflectionMethod->invoke($this->formElementHelper, 'test'));
-
-        //Set translator
-        $this->assertSame($this->formElementHelper, $this->formElementHelper->setTranslator(\TwbBundleTest\Bootstrap::getServiceManager()->get('MVCTranslator')));
-        $this->assertTrue($this->formElementHelper->hasTranslator());
     }
 
     public function testRenderAddOnWithElementAsArray() {
