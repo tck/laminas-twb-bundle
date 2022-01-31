@@ -20,13 +20,14 @@ class TwbBundleFormCheckbox extends FormCheckbox
     protected $labelHelper;
 
     /**
-     * @see FormCheckbox::render()
      * @param ElementInterface $oElement
-     * @throws LogicException
-     * @throws InvalidArgumentException
+     *
      * @return string
+     * @throws InvalidArgumentException
+     * @throws LogicException
+     * @see FormCheckbox::render()
      */
-    public function render(ElementInterface $oElement)
+    public function render(ElementInterface $oElement): string
     {
         if ($oElement->getOption('disable-twb')) {
             return parent::render($oElement);
@@ -58,9 +59,9 @@ class TwbBundleFormCheckbox extends FormCheckbox
         // Render label
         $sLabelOpen = $sLabelClose = '';
         $sLabelContent = $this->getLabelContent($oElement);
-        if($sLabelContent) {
+        if ($sLabelContent) {
             $oLabelHelper = $this->getLabelHelper();
-            $sLabelOpen = $oLabelHelper->openTag($oElement->getLabelAttributes() ? : null);
+            $sLabelOpen = $oLabelHelper->openTag($oElement->getLabelAttributes() ?: null);
             $sLabelClose = $oLabelHelper->closeTag();
         }
 
@@ -83,28 +84,32 @@ class TwbBundleFormCheckbox extends FormCheckbox
         //Render hidden input
         if ($oElement->useHiddenElement()) {
             $sElementContent = sprintf(
-                '<input type="hidden" %s%s',
-                $this->createAttributesString(array(
-                    'name' => $aAttributes['name'],
-                    'value' => $oElement->getUncheckedValue(),
-                )),
-                $sClosingBracket
-            ) . $sElementContent;
+                    '<input type="hidden" %s%s',
+                    $this->createAttributesString([
+                        'name' => $aAttributes['name'],
+                        'value' => $oElement->getUncheckedValue(),
+                    ]),
+                    $sClosingBracket
+                ) . $sElementContent;
         }
+
         return $sElementContent;
     }
-    
+
     /**
      * @param ElementInterface $oElement
+     *
      * @return string
      */
-    public function getLabelContent(ElementInterface $oElement){
-        $sLabelContent = $oElement->getLabel() ? : '';
+    public function getLabelContent(ElementInterface $oElement)
+    {
+        $sLabelContent = $oElement->getLabel() ?: '';
         if ($sLabelContent) {
             if ($oTranslator = $this->getTranslator()) {
                 $sLabelContent = $oTranslator->translate($sLabelContent, $this->getTranslatorTextDomain());
             }
         }
+
         return $sLabelContent;
     }
 
@@ -114,7 +119,7 @@ class TwbBundleFormCheckbox extends FormCheckbox
      */
     public function getLabelPosition(Checkbox $oElement)
     {
-        return $oElement->getLabelOption('position')? : FormRow::LABEL_APPEND;
+        return $oElement->getLabelOption('position') ?: FormRow::LABEL_APPEND;
     }
 
     /**
@@ -135,6 +140,7 @@ class TwbBundleFormCheckbox extends FormCheckbox
         if ($this->hasTranslator()) {
             $this->labelHelper->setTranslator($this->getTranslator(), $this->getTranslatorTextDomain());
         }
+
         return $this->labelHelper;
     }
 }

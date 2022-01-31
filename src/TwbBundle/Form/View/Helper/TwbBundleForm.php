@@ -32,10 +32,11 @@ class TwbBundleForm extends Form
     protected $formLayout = null;
 
     /**
-     * @see Form::__invoke()
      * @param FormInterface $oForm
-     * @param string $sFormLayout
+     * @param string        $sFormLayout
+     *
      * @return TwbBundleForm|string
+     * @see Form::__invoke()
      */
     public function __invoke(FormInterface $oForm = null, $sFormLayout = self::LAYOUT_HORIZONTAL)
     {
@@ -43,17 +44,20 @@ class TwbBundleForm extends Form
             return $this->render($oForm, $sFormLayout);
         }
         $this->formLayout = $sFormLayout;
+
         return $this;
     }
 
     /**
      * Render a form from the provided $oForm,
-     * @see Form::render()
+     *
      * @param FormInterface $oForm
-     * @param string $sFormLayout
+     * @param string        $sFormLayout
+     *
      * @return string
+     * @see Form::render()
      */
-    public function render(FormInterface $oForm, $sFormLayout = self::LAYOUT_HORIZONTAL)
+    public function render(FormInterface $oForm, $sFormLayout = self::LAYOUT_HORIZONTAL): string
     {
         //Prepare form if needed
         if (method_exists($oForm, 'prepare')) {
@@ -72,19 +76,20 @@ class TwbBundleForm extends Form
 
     /**
      * @param FormInterface $oForm
-     * @param string|null $sFormLayout
+     * @param string|null   $sFormLayout
+     *
      * @return string
      */
     protected function renderElements(FormInterface $oForm, $sFormLayout = self::LAYOUT_HORIZONTAL)
     {
         // Store button groups
-        $aButtonGroups = array();
+        $aButtonGroups = [];
 
         // Store button groups column-size from buttons
-        $aButtonGroupsColumnSize = array();
+        $aButtonGroupsColumnSize = [];
 
         // Store elements rendering
-        $aElementsRendering = array();
+        $aElementsRendering = [];
 
         // Retrieve view helper plugin manager
         $oHelperPluginManager = $this->getView()->getHelperPluginManager();
@@ -118,7 +123,7 @@ class TwbBundleForm extends Form
                 if (isset($aButtonGroups[$sButtonGroupKey])) {
                     $aButtonGroups[$sButtonGroupKey][] = $oElement;
                 } else {
-                    $aButtonGroups[$sButtonGroupKey] = array($oElement);
+                    $aButtonGroups[$sButtonGroupKey] = [$oElement];
                     $aElementsRendering[$iKey] = $sButtonGroupKey;
                 }
                 if (!empty($aOptions['column-size']) && !isset($aButtonGroupsColumnSize[$sButtonGroupKey])) {
@@ -140,7 +145,7 @@ class TwbBundleForm extends Form
                 $aButtons = $aButtonGroups[$sElementRendering];
 
                 // Render button group content
-                $options = (isset($aButtonGroupsColumnSize[$sElementRendering])) ? array('attributes' => array('class' => 'col-' . $aButtonGroupsColumnSize[$sElementRendering])) : null;
+                $options = (isset($aButtonGroupsColumnSize[$sElementRendering])) ? ['attributes' => ['class' => 'col-' . $aButtonGroupsColumnSize[$sElementRendering]]] : null;
                 $sFormContent .= $oFormRowHelper->renderElementFormGroup($oButtonGroupHelper($aButtons, $options), $oFormRowHelper->getRowClassFromElement(current($aButtons)));
             } else {
                 $sFormContent .= $sElementRendering;
@@ -150,13 +155,16 @@ class TwbBundleForm extends Form
         if ($bHasColumnSize && $sFormLayout !== self::LAYOUT_HORIZONTAL) {
             $sFormContent = sprintf(static::$formRowFormat, $sFormContent);
         }
+
         return $sFormContent;
     }
 
     /**
      * Sets form layout class
+     *
      * @param FormInterface $oForm
-     * @param string $sFormLayout
+     * @param string        $sFormLayout
+     *
      * @return \TwbBundle\Form\View\Helper\TwbBundleForm
      */
     protected function setFormClass(FormInterface $oForm, $sFormLayout = self::LAYOUT_HORIZONTAL)
@@ -171,17 +179,21 @@ class TwbBundleForm extends Form
                 $oForm->setAttribute('class', $sLayoutClass);
             }
         }
+
         return $this;
     }
 
     /**
      * Generate an opening form tag
+     *
      * @param null|FormInterface $form
+     *
      * @return string
      */
-    public function openTag(FormInterface $form = null)
+    public function openTag(FormInterface $form = null): string
     {
         $this->setFormClass($form, $this->formLayout);
+
         return parent::openTag($form);
     }
 }

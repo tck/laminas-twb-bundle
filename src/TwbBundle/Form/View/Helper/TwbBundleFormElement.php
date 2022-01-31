@@ -56,7 +56,7 @@ class TwbBundleFormElement extends FormElement implements TranslatorAwareInterfa
      *
      * @var array
      */
-    protected $classMap = array(
+    protected $classMap = [
         'Laminas\Form\Element\Button' => 'formbutton',
         'Laminas\Form\Element\Captcha' => 'formcaptcha',
         'Laminas\Form\Element\Csrf' => 'formhidden',
@@ -65,7 +65,7 @@ class TwbBundleFormElement extends FormElement implements TranslatorAwareInterfa
         'Laminas\Form\Element\DateSelect' => 'formdateselect',
         'Laminas\Form\Element\MonthSelect' => 'formmonthselect',
         'TwbBundle\Form\Element\StaticElement' => 'formStatic',
-    );
+    ];
 
     public function __construct(ModuleOptions $options)
     {
@@ -80,10 +80,12 @@ class TwbBundleFormElement extends FormElement implements TranslatorAwareInterfa
 
     /**
      * Render an element
+     *
      * @param ElementInterface $oElement
+     *
      * @return string
      */
-    public function render(ElementInterface $oElement)
+    public function render(ElementInterface $oElement): string
     {
         // Add form-controll class
         $sElementType = $oElement->getAttribute('type');
@@ -121,21 +123,25 @@ class TwbBundleFormElement extends FormElement implements TranslatorAwareInterfa
                     $sSpecialClass .= ' input-group-sm';
                 }
             }
+
             return sprintf(
                 static::$inputGroupFormat,
                 trim($sSpecialClass),
                 $sMarkup
             );
         }
+
         return $sMarkup;
     }
 
     /**
      * Render addo-on markup
+     *
      * @param string $aAddOnOptions
-     * @throws InvalidArgumentException
-     * @throws LogicException
+     *
      * @return string
+     * @throws LogicException
+     * @throws InvalidArgumentException
      */
     protected function renderAddOn($aAddOnOptions)
     {
@@ -143,9 +149,9 @@ class TwbBundleFormElement extends FormElement implements TranslatorAwareInterfa
             throw new InvalidArgumentException('Addon options are empty');
         }
         if ($aAddOnOptions instanceof ElementInterface) {
-            $aAddOnOptions = array('element' => $aAddOnOptions);
+            $aAddOnOptions = ['element' => $aAddOnOptions];
         } elseif (is_scalar($aAddOnOptions)) {
-            $aAddOnOptions = array('text' => $aAddOnOptions);
+            $aAddOnOptions = ['text' => $aAddOnOptions];
         } elseif (!is_array($aAddOnOptions)) {
             throw new InvalidArgumentException(sprintf(
                 'Addon options expects an array or a scalar value, "%s" given',
@@ -171,7 +177,7 @@ class TwbBundleFormElement extends FormElement implements TranslatorAwareInterfa
         } elseif (!empty($aAddOnOptions['element'])) {
             if (is_array($aAddOnOptions['element']) ||
                 ($aAddOnOptions['element'] instanceof Traversable &&
-                !($aAddOnOptions['element'] instanceof ElementInterface))
+                    !($aAddOnOptions['element'] instanceof ElementInterface))
             ) {
                 $oFactory = new Factory();
                 $aAddOnOptions['element'] = $oFactory->create($aAddOnOptions['element']);
@@ -184,7 +190,7 @@ class TwbBundleFormElement extends FormElement implements TranslatorAwareInterfa
 
             $aAddOnOptions['element']->setOptions(array_merge(
                 $aAddOnOptions['element']->getOptions(),
-                array('disable-twb' => true)
+                ['disable-twb' => true]
             ));
 
             $sMarkup .= $this->render($aAddOnOptions['element']);
@@ -203,10 +209,12 @@ class TwbBundleFormElement extends FormElement implements TranslatorAwareInterfa
 
     /**
      * Sets translator to use in helper
-     * @see TranslatorAwareInterface::setTranslator()
+     *
      * @param TranslatorInterface $oTranslator : [optional] translator. Default is null, which sets no translator.
-     * @param string $sTextDomain : [optional] text domain Default is null, which skips setTranslatorTextDomain
+     * @param string              $sTextDomain : [optional] text domain Default is null, which skips setTranslatorTextDomain
+     *
      * @return TwbBundleFormElement
+     * @see TranslatorAwareInterface::setTranslator()
      */
     public function setTranslator(TranslatorInterface $oTranslator = null, $sTextDomain = null)
     {
@@ -214,13 +222,14 @@ class TwbBundleFormElement extends FormElement implements TranslatorAwareInterfa
         if (null !== $sTextDomain) {
             $this->setTranslatorTextDomain($sTextDomain);
         }
+
         return $this;
     }
 
     /**
      * Returns translator used in helper
-     * @see TranslatorAwareInterface::getTranslator()
      * @return null|TranslatorInterface
+     * @see TranslatorAwareInterface::getTranslator()
      */
     public function getTranslator()
     {
@@ -229,8 +238,8 @@ class TwbBundleFormElement extends FormElement implements TranslatorAwareInterfa
 
     /**
      * Checks if the helper has a translator
-     * @see TranslatorAwareInterface::hasTranslator()
      * @return boolean
+     * @see TranslatorAwareInterface::hasTranslator()
      */
     public function hasTranslator()
     {
@@ -239,20 +248,23 @@ class TwbBundleFormElement extends FormElement implements TranslatorAwareInterfa
 
     /**
      * Sets whether translator is enabled and should be used
-     * @see TranslatorAwareInterface::setTranslatorEnabled()
+     *
      * @param boolean $bEnabled
+     *
      * @return TwbBundleFormElement
+     * @see TranslatorAwareInterface::setTranslatorEnabled()
      */
     public function setTranslatorEnabled($bEnabled = true)
     {
         $this->translatorEnabled = !!$bEnabled;
+
         return $this;
     }
 
     /**
      * Returns whether translator is enabled and should be used
-     * @see TranslatorAwareInterface::isTranslatorEnabled()
      * @return boolean
+     * @see TranslatorAwareInterface::isTranslatorEnabled()
      */
     public function isTranslatorEnabled()
     {
@@ -261,20 +273,23 @@ class TwbBundleFormElement extends FormElement implements TranslatorAwareInterfa
 
     /**
      * Set translation text domain
-     * @see TranslatorAwareInterface::setTranslatorTextDomain()
+     *
      * @param string $sTextDomain
+     *
      * @return TwbBundleFormElement
+     * @see TranslatorAwareInterface::setTranslatorTextDomain()
      */
     public function setTranslatorTextDomain($sTextDomain = 'default')
     {
         $this->translatorTextDomain = $sTextDomain;
+
         return $this;
     }
 
     /**
      * Return the translation text domain
-     * @see TranslatorAwareInterface::getTranslatorTextDomain()
      * @return string
+     * @see TranslatorAwareInterface::getTranslatorTextDomain()
      */
     public function getTranslatorTextDomain()
     {

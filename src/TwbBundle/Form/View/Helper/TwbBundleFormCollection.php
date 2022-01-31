@@ -22,16 +22,18 @@ class TwbBundleFormCollection extends FormCollection
      * Attributes valid for the tag represented by this helper
      * @var array
      */
-    protected $validTagAttributes = array(
-        'disabled' => true
-    );
+    protected $validTagAttributes = [
+        'disabled' => true,
+    ];
 
     /**
      * Render a collection by iterating through all fieldsets and elements
+     *
      * @param \Laminas\Form\ElementInterface $oElement
+     *
      * @return string
      */
-    public function render(ElementInterface $oElement)
+    public function render(ElementInterface $oElement): string
     {
         $oRenderer = $this->getView();
         if (!method_exists($oRenderer, 'plugin')) {
@@ -56,15 +58,15 @@ class TwbBundleFormCollection extends FormCollection
                 if ($oElementOrFieldset instanceof \Laminas\Form\FieldsetInterface) {
                     $sMarkup .= $oFieldsetHelper($oElementOrFieldset);
                 } elseif ($oElementOrFieldset instanceof \Laminas\Form\ElementInterface) {
-                	if ($oElementOrFieldset->getOption('twb-row-open')) {
-						$sMarkup .= '<div class="row">' . "\n";
-					}
+                    if ($oElementOrFieldset->getOption('twb-row-open')) {
+                        $sMarkup .= '<div class="row">' . "\n";
+                    }
 
-					$sMarkup .= $oElementHelper($oElementOrFieldset);
+                    $sMarkup .= $oElementHelper($oElementOrFieldset);
 
-					if ($oElementOrFieldset->getOption('twb-row-close')) {
-						$sMarkup .= '</div>' . "\n";
-					}
+                    if ($oElementOrFieldset->getOption('twb-row-close')) {
+                        $sMarkup .= '</div>' . "\n";
+                    }
                 }
             }
             if ($oElement instanceof \Laminas\Form\Element\Collection && $oElement->shouldCreateTemplate()) {
@@ -79,8 +81,8 @@ class TwbBundleFormCollection extends FormCollection
                 }
 
                 $sMarkup = sprintf(
-                        static::$legendFormat, ($sAttributes = $this->createAttributesString($oElement->getLabelAttributes()? : array())) ? ' ' . $sAttributes : '', $this->getEscapeHtmlHelper()->__invoke($sLabel)
-                ) . $sMarkup;
+                        static::$legendFormat, ($sAttributes = $this->createAttributesString($oElement->getLabelAttributes() ?: [])) ? ' ' . $sAttributes : '', $this->getEscapeHtmlHelper()->__invoke($sLabel)
+                    ) . $sMarkup;
             }
 
             //Set form layout class
@@ -96,9 +98,10 @@ class TwbBundleFormCollection extends FormCollection
             }
 
             $sMarkup = sprintf(
-                    static::$fieldsetFormat, ($sAttributes = $this->createAttributesString($oElement->getAttributes())) ? ' ' . $sAttributes : '', $sMarkup
+                static::$fieldsetFormat, ($sAttributes = $this->createAttributesString($oElement->getAttributes())) ? ' ' . $sAttributes : '', $sMarkup
             );
         }
+
         return $sMarkup;
     }
 
@@ -106,9 +109,10 @@ class TwbBundleFormCollection extends FormCollection
      * Only render a template
      *
      * @param CollectionElement $collection
+     *
      * @return string
      */
-    public function renderTemplate(CollectionElement $collection)
+    public function renderTemplate(CollectionElement $collection): string
     {
         if (false != ($sElementLayout = $collection->getOption('twb-layout'))) {
             $elementOrFieldset = $collection->getTemplateElement();

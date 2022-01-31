@@ -21,11 +21,12 @@ class TwbBundleFormRadio extends FormRadio
     protected static $checkboxFormat = '<div class="radio">%s</div>';
 
     /**
-     * @see \Laminas\Form\View\Helper\FormRadio::render()
      * @param \Laminas\Form\ElementInterface $oElement
+     *
      * @return string
+     * @see \Laminas\Form\View\Helper\FormRadio::render()
      */
-    public function render(ElementInterface $oElement)
+    public function render(ElementInterface $oElement): string
     {
         $aElementOptions = $oElement->getOptions();
 
@@ -34,56 +35,58 @@ class TwbBundleFormRadio extends FormRadio
             $this->setSeparator('');
             $sReturn = parent::render($oElement);
             $this->setSeparator($sSeparator);
+
             return $sReturn;
         }
 
         if (isset($aElementOptions['inline']) && $aElementOptions['inline'] == true) {
             $sSeparator = $this->getSeparator();
             $this->setSeparator('');
-            $oElement->setLabelAttributes(array('class' => 'radio-inline'));
+            $oElement->setLabelAttributes(['class' => 'radio-inline']);
             $sReturn = sprintf('%s', parent::render($oElement));
             $this->setSeparator($sSeparator);
+
             return $sReturn;
         }
 
         if (isset($aElementOptions['btn-group']) && $aElementOptions['btn-group'] != false) {
-
             $buttonClass = 'btn btn-primary';
             if (is_array($aElementOptions['btn-group']) && isset($aElementOptions['btn-group']['btn-class'])) {
                 $buttonClass = $aElementOptions['btn-group']['btn-class'];
             }
 
-        	$this->setSeparator('');
-        	$oElement->setLabelAttributes(array('class' => $buttonClass));
+            $this->setSeparator('');
+            $oElement->setLabelAttributes(['class' => $buttonClass]);
 
-        	return sprintf('<div class="btn-group" data-toggle="buttons">%s</div>', parent::render($oElement));
+            return sprintf('<div class="btn-group" data-toggle="buttons">%s</div>', parent::render($oElement));
         }
 
         return sprintf(static::$checkboxFormat, parent::render($oElement));
     }
 
     /**
-     * @see \Laminas\Form\View\Helper\FormMultiCheckbox::renderOptions()
      * @param \Laminas\Form\Element\MultiCheckbox $oElement
-     * @param array $aOptions
-     * @param array $aSelectedOptions
-     * @param array $aAttributes
+     * @param array                               $aOptions
+     * @param array                               $aSelectedOptions
+     * @param array                               $aAttributes
+     *
      * @return string
+     * @see \Laminas\Form\View\Helper\FormMultiCheckbox::renderOptions()
      */
     protected function renderOptions(
         MultiCheckbox $oElement,
         array $aOptions,
         array $aSelectedOptions,
         array $aAttributes
-    ) {
+    ): string {
         $iIterator = 0;
-        $aGlobalLabelAttributes = $oElement->getLabelAttributes()? : $this->labelAttributes;
+        $aGlobalLabelAttributes = $oElement->getLabelAttributes() ?: $this->labelAttributes;
         $sMarkup = '';
         $oLabelHelper = $this->getLabelHelper();
         $aElementOptions = $oElement->getOptions();
         foreach ($aOptions as $key => $aOptionspec) {
             if (is_scalar($aOptionspec)) {
-                $aOptionspec = array('label' => $aOptionspec, 'value' => $key);
+                $aOptionspec = ['label' => $aOptionspec, 'value' => $key];
             }
 
             $iIterator++;
@@ -124,9 +127,9 @@ class TwbBundleFormRadio extends FormRadio
             if ($sLabel) {
                 $aLabelAttributes = $aGlobalLabelAttributes;
                 if (isset($aElementOptions['btn-group']) && $aElementOptions['btn-group'] == true) {
-                	if ($aInputAttributes['checked']) {
-                		$aLabelAttributes['class'] = ((isset($aLabelAttributes['class'])) ? $aLabelAttributes['class'] : '') . ' active';
-                	}
+                    if ($aInputAttributes['checked']) {
+                        $aLabelAttributes['class'] = ((isset($aLabelAttributes['class'])) ? $aLabelAttributes['class'] : '') . ' active';
+                    }
                 }
 
                 if (isset($aOptionspec['label_attributes'])) {
@@ -153,6 +156,7 @@ class TwbBundleFormRadio extends FormRadio
             }
             $sMarkup .= ($sMarkup ? $this->getSeparator() : '') . $sOptionMarkup;
         }
+
         return $sMarkup;
     }
 }

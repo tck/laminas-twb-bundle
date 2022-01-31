@@ -42,7 +42,7 @@ class TwbBundleFormCheckboxTest extends \PHPUnit_Framework_TestCase {
     public function testRenderWithCheckedElement() {
         $oCheckbox = new \Laminas\Form\Element\Checkbox('checked');
         $oCheckbox->setChecked(true);
-        $this->assertEquals('<input type="hidden" name="checked" value="0"><input type="checkbox" name="checked" value="1" checked="checked">', $this->formCheckboxHelper->render($oCheckbox));
+        $this->assertEquals('<input type="hidden" name="checked" value="0"><input type="checkbox" name="checked" value="1" checked>', $this->formCheckboxHelper->render($oCheckbox));
     }
 
 }
